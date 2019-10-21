@@ -1,4 +1,6 @@
 import React from 'react';
+import './Stopwatch.css';
+import Button from '@material-ui/core/Button';
 
 class Stopwatch extends React.Component {
   state = {
@@ -11,7 +13,7 @@ class Stopwatch extends React.Component {
       const startTime = Date.now() - state.elapsedTime;
       this.timer = setInterval(() => {
         this.setState({ elapsedTime: Date.now() - startTime });
-      });
+      }, 10);
       return { isOn: !state.isOn };
     });
   };
@@ -32,24 +34,29 @@ class Stopwatch extends React.Component {
     clearInterval(this.timer);
   }
 
+  formatTime(time) {
+    let ms = ('0' + Math.floor(time / 10) % 1000).slice(-2);
+    let seconds = ('0' + Math.floor(time / 1000) % 60).slice(-2);
+    let minutes = ('0' + Math.floor(time / 60000) % 60).slice(-2);
+    let hours = ('0' + Math.floor(time / 3600000) % 24).slice(-2);
+    return (
+      <div className='time-format'>
+        <p className='hh-mm-ss'>{hours}:{minutes}:{seconds}</p>
+        <p className='ms'>.{ms}</p>
+      </div>
+    )
+  }
+
   render() { 
     const {isOn, elapsedTime} = this.state;
-    const containerStyle = { 
-      background: 'midnightblue',
-      height: '100%',
-      paddingTop: '35vh',
-      textAlign: 'center',  
-      font: '16px monospace',
-      color: 'white'
-    };
 
     return (
-      <div style={containerStyle}>
-          <h1 style={{margin: '0'}}>Stopwatch</h1>
-          <p>{elapsedTime} ms</p>
-          {!isOn &&  <button onClick={this.handleStart}>{elapsedTime === 0 ? 'Start' : 'Resume'}</button>}
-          {isOn && <button onClick={this.handleStop}>Stop</button>}
-          {!isOn ? <button onClick={this.handleReset}>Reset</button> : null}
+      <div className='container'>
+          <h1>Stopwatch</h1>          
+          {this.formatTime(elapsedTime)}                   
+          {!isOn &&  <Button variant='contained' color='primary' onClick={this.handleStart}>{elapsedTime === 0 ? 'Start': 'Resume'}</Button>}
+          {isOn && <Button variant='contained' color='primary' onClick={this.handleStop}>Stop</Button>}
+          {!isOn && elapsedTime > 0 ? <Button variant='contained' color='primary' onClick={this.handleReset}>Reset</Button> : null}
       </div>
     );
   }

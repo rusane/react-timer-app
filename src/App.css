@@ -1,8 +1,7 @@
-.Main {
+.main {
   height: 100vh;
-  box-sizing: border-box;
-  border: 20px solid black;
   overflow: hidden;
-  padding: 0;
-  /* background: red; */
+  background: midnightblue
+  /* box-sizing: border-box; */
+  /* border: 20px solid black; */
 }

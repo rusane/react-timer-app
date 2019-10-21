@@ -1,0 +1,21 @@
+.container {
+    height: 100%;
+    padding-top: 35vh;
+    text-align: center;
+    font-family: "Roboto", "Lucida Console", monospace;
+    color: white;
+}
+
+.time-format {
+    padding: 10px;
+}
+
+.hh-mm-ss {
+    display: inline;
+    font-size: 72px
+}
+
+.ms {
+    display: inline;
+    font-size: 36px;
+}
