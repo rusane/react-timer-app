@@ -10,6 +10,11 @@
     padding: 10px;
 }
 
+.time-format-finished {
+    padding: 10px;
+    color: grey;
+}
+
 .hh-mm-ss {
     display: inline;
     font-size: 72px
