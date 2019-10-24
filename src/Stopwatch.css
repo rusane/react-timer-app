@@ -1,26 +1,50 @@
 .container {
     height: 100%;
-    padding-top: 35vh;
     text-align: center;
-    font-family: "Roboto", "Lucida Console", monospace;
-    color: white;
+    padding-top: 20px;
+}
+
+/* Temporary style */
+.paper-time {
+    margin-top: 5%;
+    padding-bottom: 5%;
 }
 
 .time-format {
-    padding: 10px;
+    display: inline-block;
+    width: 100%;
 }
 
 .time-format-finished {
-    padding: 10px;
-    color: grey;
+    color: crimson;
+    animation: text-blink 1s step-start infinite;
 }
 
 .hh-mm-ss {
     display: inline;
-    font-size: 72px
 }
 
 .ms {
     display: inline;
-    font-size: 36px;
+    font-size: 50%;
+}
+
+@keyframes text-blink {
+    50% {
+      opacity: 0;
+    }
+}
+
+@media screen and (min-width: 1001px) {
+    .time-format, .time-format-finished {
+        font-size: 96px;
+        font-size: 8vw;
+    }
+}
+
+@media screen and (max-width: 1000px) {
+    .time-format, .time-format-finished {
+        font-size: 48px;
+        font-size: 16vw;
+    }
 }

@@ -1,14 +1,20 @@
 import React from 'react';
 import './Stopwatch.css'; // decide if separate style sheets are necessary
 import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
+import Paper from '@material-ui/core/Paper';
+import Container from '@material-ui/core/Container';
 
 class Countdown extends React.Component {
-  state = {
-    isOn: false,
-    hasFinished: false,
-    elapsedTime: 0,
-    duration: 45000, // ms - hardcoded for now
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      isOn: false,
+      hasFinished: false,
+      elapsedTime: 0,
+      duration: 45000,
+    };
+  }
 
   handleStart = () => {
     this.setState(state => {
@@ -16,14 +22,14 @@ class Countdown extends React.Component {
       this.timer = setInterval(() => {
         let delta = Date.now() - startTime;
         if (delta >= state.duration) {
-            clearInterval(this.timer);
-            this.setState({ 
-                isOn: false, 
-                hasFinished: true, 
-                elapsedTime: state.duration 
-            });            
+          clearInterval(this.timer);
+          this.setState({
+            isOn: false,
+            hasFinished: true,
+            elapsedTime: state.duration
+          });
         } else {
-            this.setState({ elapsedTime: delta });
+          this.setState({ elapsedTime: delta });
         }
       }, 10);
       return { isOn: !state.isOn };
@@ -39,9 +45,9 @@ class Countdown extends React.Component {
 
   handleReset = () => {
     this.setState({
-        isOn: false, 
-        hasFinished: false, 
-        elapsedTime: 0
+      isOn: false,
+      hasFinished: false,
+      elapsedTime: 0
     });
     clearInterval(this.timer);
   };
@@ -69,20 +75,64 @@ class Countdown extends React.Component {
     )
   }
 
-  render() { 
-    const {isOn, hasFinished, elapsedTime, duration} = this.state;
+  handleSeconds = (e) => {
+    this.handleReset();
+    let seconds = e.target.value;
+    if (seconds >= 0) {
+      let ms = seconds * 1000;
+      this.setState({ duration: ms });
+    }
+  };
 
-    // Fix padding around reset button
+  handleMinutes = (e) => {
+    this.handleReset();
+    let minutes = e.target.value;
+    if (minutes >= 0) {
+      let ms = minutes * 60 * 1000;
+      this.setState({ duration: ms });
+    }
+  };
+
+  render() {
+    const { isOn, hasFinished, elapsedTime, duration } = this.state;
+
     return (
       <div className='container'>
-          <h1>Countdown</h1>          
-          {this.formatTime(duration - elapsedTime, hasFinished)}                 
-          {!isOn && !hasFinished && <Button variant='contained' color='primary' onClick={this.handleStart}>{elapsedTime === 0 ? 'Start': 'Resume'}</Button>}
-          {isOn && <Button variant='contained' color='primary' onClick={this.handleStop}>Stop</Button>}
-          <div>
-            {!isOn && elapsedTime > 0 ? <Button variant='contained' color='primary' onClick={this.handleReset}>Reset</Button> : null}
-          </div>
-      </div>
+        <Container>
+          <TextField
+            id="mm-input"
+            label="Minutes"
+            onChange={this.handleMinutes}
+            type="number"
+            placeholder="00"
+            InputLabelProps={{ shrink: true }}
+            margin="normal"
+            disabled={isOn}
+          />
+          <TextField
+            id="ss-input"
+            label="Seconds"
+            onChange={this.handleSeconds}
+            type="number"
+            placeholder="00"
+            InputLabelProps={{ shrink: true }}
+            margin="normal"
+            disabled={isOn}
+          />
+        </Container>
+        <Container>
+          <Paper className="paper-time">
+            {this.formatTime(duration - elapsedTime, hasFinished)}
+            <div>
+              {!isOn && !hasFinished && <Button variant='contained' color='primary' onClick={this.handleStart}>{elapsedTime === 0 ? 'Start' : 'Resume'}</Button>}
+              {isOn && <Button variant='contained' color='primary' onClick={this.handleStop}>Stop</Button>}
+            </div>
+            <div>
+              {(!isOn && elapsedTime > 0) || hasFinished ? <Button variant='contained' color='primary' onClick={this.handleReset}>Reset</Button> : null}
+            </div>
+          </Paper>
+        </Container>
+      </div >
     );
   }
 }

@@ -1,12 +1,17 @@
 import React from 'react';
 import './Stopwatch.css';
 import Button from '@material-ui/core/Button';
+import Paper from '@material-ui/core/Paper';
+import Container from '@material-ui/core/Container';
 
 class Stopwatch extends React.Component {
-  state = {
-    isOn: false,
-    elapsedTime: 0
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      isOn: false,
+      elapsedTime: 0
+    };
+  }
 
   handleStart = () => {
     this.setState(state => {
@@ -26,7 +31,7 @@ class Stopwatch extends React.Component {
   };
 
   handleReset = () => {
-    this.setState({isOn: false, elapsedTime: 0});
+    this.setState({ isOn: false, elapsedTime: 0 });
     clearInterval(this.timer);
   };
 
@@ -47,16 +52,23 @@ class Stopwatch extends React.Component {
     )
   }
 
-  render() { 
-    const {isOn, elapsedTime} = this.state;
+  render() {
+    const { isOn, elapsedTime } = this.state;
 
     return (
       <div className='container'>
-          <h1>Stopwatch</h1>          
-          {this.formatTime(elapsedTime)}                   
-          {!isOn &&  <Button variant='contained' color='primary' onClick={this.handleStart}>{elapsedTime === 0 ? 'Start': 'Resume'}</Button>}
-          {isOn && <Button variant='contained' color='primary' onClick={this.handleStop}>Stop</Button>}
-          {!isOn && elapsedTime > 0 ? <Button variant='contained' color='primary' onClick={this.handleReset}>Reset</Button> : null}
+        <Container>
+          <Paper className="paper-time">
+            {this.formatTime(elapsedTime)}
+            <div>
+              {!isOn && <Button variant='contained' color='primary' onClick={this.handleStart}>{elapsedTime === 0 ? 'Start' : 'Resume'}</Button>}
+              {isOn && <Button variant='contained' color='primary' onClick={this.handleStop}>Stop</Button>}
+            </div>
+            <div>
+              {!isOn && elapsedTime > 0 ? <Button variant='contained' color='primary' onClick={this.handleReset}>Reset</Button> : null}
+            </div>
+          </Paper>
+        </Container>
       </div>
     );
   }

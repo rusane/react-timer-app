@@ -1,14 +1,11 @@
 import React from 'react';
-// import Stopwatch from './Stopwatch';
-import Countdown from './Countdown';
+import TabBar from './TabBar';
 import './App.css';
 
 class App extends React.Component {
-  render() { 
+  render() {
     return (
-      <div className='main'>
-        <Countdown/>
-      </div>
+      <TabBar />
     );
   }
 }
