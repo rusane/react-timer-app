@@ -10,6 +10,8 @@ import Stopwatch from './Stopwatch';
 import Countdown from './Countdown';
 import TimerIcon from '@material-ui/icons/Timer';
 import HourglassEmptyRoundedIcon from '@material-ui/icons/HourglassEmptyRounded';
+import { ThemeProvider } from '@material-ui/core/styles/';
+import theme from './theme';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -40,6 +42,12 @@ const useStyles = makeStyles(theme => ({
     height: '100vh',
     backgroundColor: "whitesmoke" //theme.palette.background.paper
   },
+  // topBar: {
+    // backgroundColor: "#212121"
+  // },
+  // icon: {
+    // color: 'whitesmoke'
+  // }
 }));
 
 export default function TabBar() {
@@ -51,25 +59,28 @@ export default function TabBar() {
   };
 
   return (
-    <div className={classes.root}>
-      <AppBar position="static" color="default">
-        <Tabs
-          value={value}
-          onChange={handleChange}
-          indicatorColor="primary"
-          textColor="primary"
-          centered
-        >
-          <Tab icon={<TimerIcon />} label="STOPWATCH" />
-          <Tab icon={<HourglassEmptyRoundedIcon />} label="COUNTDOWN" />
-        </Tabs>
-      </AppBar>
-      <TabPanel value={value} index={0}>
-        <Stopwatch />
-      </TabPanel>
-      <TabPanel value={value} index={1}>
-        <Countdown />
-      </TabPanel>
-    </div>
+    <ThemeProvider theme={theme}>
+      <div className={classes.root}>
+        <AppBar position="static" color="secondary">
+          <Tabs
+            className={classes.topBar}
+            value={value}
+            onChange={handleChange}
+            indicatorColor="primary"
+            textColor="primary"
+            centered
+          >
+            <Tab className={classes.icon} icon={<TimerIcon />} label="STOPWATCH" />
+            <Tab className={classes.icon} icon={<HourglassEmptyRoundedIcon />} label="COUNTDOWN" />
+          </Tabs>
+        </AppBar>
+        <TabPanel value={value} index={0}>
+          <Stopwatch />
+        </TabPanel>
+        <TabPanel value={value} index={1}>
+          <Countdown />
+        </TabPanel>
+      </div>
+    </ThemeProvider>
   );
 }

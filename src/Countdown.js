@@ -12,6 +12,8 @@ class Countdown extends React.Component {
       isOn: false,
       hasFinished: false,
       elapsedTime: 0,
+      seconds: 45,
+      minutes: 0,
       duration: 45000,
     };
   }
@@ -75,12 +77,24 @@ class Countdown extends React.Component {
     )
   }
 
+  toMilliseconds = (time, unit) => {
+    let ms = time;
+    if (unit === 'ss') { ms = time * 1000 }
+    if (unit === 'mm') { ms = time * 60 * 1000 }
+    if (unit === 'hh') { ms = time * 60 * 60 * 1000 }
+    return ms;
+  };
+
   handleSeconds = (e) => {
     this.handleReset();
     let seconds = e.target.value;
     if (seconds >= 0) {
-      let ms = seconds * 1000;
-      this.setState({ duration: ms });
+      let msSeconds = seconds * 1000;
+      this.setState(state => {
+        let msMinutes = this.toMilliseconds(state.minutes, 'mm');
+        let duration = msSeconds + msMinutes;
+        return { seconds: seconds, duration: duration };
+      });
     }
   };
 
@@ -88,13 +102,17 @@ class Countdown extends React.Component {
     this.handleReset();
     let minutes = e.target.value;
     if (minutes >= 0) {
-      let ms = minutes * 60 * 1000;
-      this.setState({ duration: ms });
+      let msMinutes = minutes * 60 * 1000;
+      this.setState(state => {
+        let msSeconds = this.toMilliseconds(state.seconds, 'ss');
+        let duration = msSeconds + msMinutes;
+        return { minutes: minutes, duration: duration };
+      });
     }
   };
 
   render() {
-    const { isOn, hasFinished, elapsedTime, duration } = this.state;
+    const { isOn, hasFinished, elapsedTime, minutes, seconds, duration } = this.state;
 
     return (
       <div className='container'>
@@ -102,6 +120,7 @@ class Countdown extends React.Component {
           <TextField
             id="mm-input"
             label="Minutes"
+            value={minutes}
             onChange={this.handleMinutes}
             type="number"
             placeholder="00"
@@ -112,6 +131,7 @@ class Countdown extends React.Component {
           <TextField
             id="ss-input"
             label="Seconds"
+            value={seconds}
             onChange={this.handleSeconds}
             type="number"
             placeholder="00"
