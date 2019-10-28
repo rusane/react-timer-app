@@ -14,7 +14,8 @@ class Countdown extends React.Component {
       elapsedTime: 0,
       seconds: 45,
       minutes: 0,
-      duration: 45000,
+      hours: 0,
+      duration: 45000
     };
   }
 
@@ -62,7 +63,8 @@ class Countdown extends React.Component {
     let ms = ('0' + Math.floor(time / 10) % 1000).slice(-2);
     let seconds = ('0' + Math.floor(time / 1000) % 60).slice(-2);
     let minutes = ('0' + Math.floor(time / 60000) % 60).slice(-2);
-    let hours = ('0' + Math.floor(time / 3600000) % 24).slice(-2);
+    let hours = Math.floor(time / 3600000) % 1000; // mod 24 for days
+    hours = hours.toString().length < 2 ? '0' + hours : hours;
 
     let divClassName = 'time-format';
     if (hasFinished) {
@@ -92,7 +94,8 @@ class Countdown extends React.Component {
       let msSeconds = seconds * 1000;
       this.setState(state => {
         let msMinutes = this.toMilliseconds(state.minutes, 'mm');
-        let duration = msSeconds + msMinutes;
+        let msHours = this.toMilliseconds(state.hours, 'hh');
+        let duration = msSeconds + msMinutes + msHours;
         return { seconds: seconds, duration: duration };
       });
     }
@@ -105,22 +108,46 @@ class Countdown extends React.Component {
       let msMinutes = minutes * 60 * 1000;
       this.setState(state => {
         let msSeconds = this.toMilliseconds(state.seconds, 'ss');
-        let duration = msSeconds + msMinutes;
+        let msHours = this.toMilliseconds(state.hours, 'hh');
+        let duration = msSeconds + msMinutes + msHours;
         return { minutes: minutes, duration: duration };
       });
     }
   };
 
+  handleHours = (e) => {
+    this.handleReset();
+    let hours = e.target.value;
+    if (hours >= 0) {
+      let msHours = hours * 60 * 60 * 1000;
+      this.setState(state => {
+        let msSeconds = this.toMilliseconds(state.seconds, 'ss');
+        let msMinutes = this.toMilliseconds(state.minutes, 'mm');
+        let duration = msSeconds + msMinutes + msHours;
+        return { hours: hours, duration: duration };
+      });
+    }
+  };
+
   render() {
-    const { isOn, hasFinished, elapsedTime, minutes, seconds, duration } = this.state;
+    const { isOn, hasFinished, elapsedTime, seconds, minutes, hours, duration } = this.state;
 
     return (
       <div className='container'>
         <Container>
           <TextField
+            id="hh-input"
+            label="Hours"
+            onChange={this.handleHours}
+            type="number"
+            placeholder="00"
+            InputLabelProps={{ shrink: true }}
+            margin="normal"
+            disabled={isOn}
+          />
+          <TextField
             id="mm-input"
             label="Minutes"
-            value={minutes}
             onChange={this.handleMinutes}
             type="number"
             placeholder="00"
@@ -131,7 +158,7 @@ class Countdown extends React.Component {
           <TextField
             id="ss-input"
             label="Seconds"
-            value={seconds}
+            defaultValue={seconds}
             onChange={this.handleSeconds}
             type="number"
             placeholder="00"
