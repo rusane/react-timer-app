@@ -1,8 +1,12 @@
 import React from 'react';
-import './Stopwatch.css';
-import Button from '@material-ui/core/Button';
+import './Timer.css';
 import Paper from '@material-ui/core/Paper';
 import Container from '@material-ui/core/Container';
+import Fab from '@material-ui/core/Fab';
+import IconButton from '@material-ui/core/IconButton';
+import PlayArrowRoundedIcon from '@material-ui/icons/PlayArrowRounded';
+import PauseRoundedIcon from '@material-ui/icons/PauseRounded';
+import ReplayRoundedIcon from '@material-ui/icons/ReplayRounded';
 
 class Stopwatch extends React.Component {
   constructor(props) {
@@ -61,11 +65,33 @@ class Stopwatch extends React.Component {
           <Paper className="paper-time">
             {this.formatTime(elapsedTime)}
             <div>
-              {!isOn && <Button variant='contained' color='primary' onClick={this.handleStart}>{elapsedTime === 0 ? 'Start' : 'Resume'}</Button>}
-              {isOn && <Button variant='contained' color='primary' onClick={this.handleStop}>Stop</Button>}
-            </div>
-            <div>
-              {!isOn && elapsedTime > 0 ? <Button variant='contained' color='primary' onClick={this.handleReset}>Reset</Button> : null}
+              {!isOn &&
+                <Fab
+                  color='primary'
+                  onClick={this.handleStart}
+                >
+                  <PlayArrowRoundedIcon />
+                </Fab>
+              }
+              {isOn &&
+                <Fab
+                  color='primary'
+                  onClick={this.handleStop}
+                >
+                  <PauseRoundedIcon />
+                </Fab>
+              }
+              {!isOn && elapsedTime > 0 ?
+                <IconButton
+                  className="reset-btn"
+                  color="default"
+                  onClick={this.handleReset}
+                >
+                  <ReplayRoundedIcon fontSize="Large"/>
+                </IconButton>
+                :
+                null
+              }
             </div>
           </Paper>
         </Container>

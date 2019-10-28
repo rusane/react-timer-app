@@ -1,9 +1,13 @@
 import React from 'react';
-import './Stopwatch.css'; // decide if separate style sheets are necessary
-import Button from '@material-ui/core/Button';
+import './Timer.css';
 import TextField from '@material-ui/core/TextField';
 import Paper from '@material-ui/core/Paper';
 import Container from '@material-ui/core/Container';
+import Fab from '@material-ui/core/Fab';
+import IconButton from '@material-ui/core/IconButton';
+import PlayArrowRoundedIcon from '@material-ui/icons/PlayArrowRounded';
+import PauseRoundedIcon from '@material-ui/icons/PauseRounded';
+import ReplayRoundedIcon from '@material-ui/icons/ReplayRounded';
 
 class Countdown extends React.Component {
   constructor(props) {
@@ -130,10 +134,44 @@ class Countdown extends React.Component {
   };
 
   render() {
-    const { isOn, hasFinished, elapsedTime, seconds, minutes, hours, duration } = this.state;
+    const { isOn, hasFinished, elapsedTime, seconds, duration } = this.state;
 
     return (
       <div className='container'>
+        <Container>
+          <Paper className="paper-time">
+            {this.formatTime(duration - elapsedTime, hasFinished)}
+            <div>
+              {!isOn && !hasFinished &&
+                <Fab
+                  color='primary'
+                  onClick={this.handleStart}
+                >
+                  <PlayArrowRoundedIcon />
+                </Fab>
+              }
+              {isOn &&
+                <Fab
+                  color='primary'
+                  onClick={this.handleStop}
+                >
+                  <PauseRoundedIcon />
+                </Fab>
+              }
+              {(!isOn && elapsedTime > 0) || hasFinished ?
+                <IconButton
+                  className="reset-btn"
+                  color="default"
+                  onClick={this.handleReset}
+                >
+                  <ReplayRoundedIcon fontSize="Large" />
+                </IconButton>
+                :
+                null
+              }
+            </div>
+          </Paper>
+        </Container>
         <Container>
           <TextField
             id="hh-input"
@@ -166,18 +204,6 @@ class Countdown extends React.Component {
             margin="normal"
             disabled={isOn}
           />
-        </Container>
-        <Container>
-          <Paper className="paper-time">
-            {this.formatTime(duration - elapsedTime, hasFinished)}
-            <div>
-              {!isOn && !hasFinished && <Button variant='contained' color='primary' onClick={this.handleStart}>{elapsedTime === 0 ? 'Start' : 'Resume'}</Button>}
-              {isOn && <Button variant='contained' color='primary' onClick={this.handleStop}>Stop</Button>}
-            </div>
-            <div>
-              {(!isOn && elapsedTime > 0) || hasFinished ? <Button variant='contained' color='primary' onClick={this.handleReset}>Reset</Button> : null}
-            </div>
-          </Paper>
         </Container>
       </div >
     );

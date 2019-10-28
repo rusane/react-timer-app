@@ -41,13 +41,7 @@ const useStyles = makeStyles(theme => ({
     width: '100%',
     height: '100vh',
     backgroundColor: "whitesmoke" //theme.palette.background.paper
-  },
-  // topBar: {
-    // backgroundColor: "#212121"
-  // },
-  // icon: {
-    // color: 'whitesmoke'
-  // }
+  }
 }));
 
 export default function TabBar() {

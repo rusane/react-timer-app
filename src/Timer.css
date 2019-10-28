@@ -1,13 +1,12 @@
 .container {
-    height: 100%;
     text-align: center;
-    padding-top: 20px;
+    margin-top: 10%;
 }
 
 /* Temporary style */
 .paper-time {
-    margin-top: 5%;
-    padding-bottom: 5%;
+    padding-bottom: 4%;
+    margin-bottom: 5%;
 }
 
 .time-format {
@@ -27,6 +26,11 @@
 .ms {
     display: inline;
     font-size: 50%;
+}
+
+.reset-btn {
+    position: absolute !important;
+    display: inline-block !important;
 }
 
 @keyframes text-blink {
