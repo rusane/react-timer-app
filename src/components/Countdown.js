@@ -1,5 +1,5 @@
 import React from 'react';
-import './Timer.css';
+import '../styles/Timer.css';
 import TimeInput from './TimeInput';
 import Paper from '@material-ui/core/Paper';
 import Container from '@material-ui/core/Container';

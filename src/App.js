@@ -1,10 +1,10 @@
 import React from 'react';
-import TabBar from './TabBar';
+import TabView from './components/TabView';
 
 class App extends React.Component {
   render() {
     return (
-      <TabBar />
+      <TabView />
     );
   }
 }

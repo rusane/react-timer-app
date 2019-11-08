@@ -12,7 +12,7 @@ import TimerIcon from '@material-ui/icons/Timer';
 import HourglassEmptyRoundedIcon from '@material-ui/icons/HourglassEmptyRounded';
 import Hidden from '@material-ui/core/Hidden';
 import { ThemeProvider } from '@material-ui/core/styles/';
-import theme from './theme';
+import theme from '../themes/theme';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
