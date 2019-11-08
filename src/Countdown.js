@@ -1,6 +1,6 @@
 import React from 'react';
 import './Timer.css';
-import TextField from '@material-ui/core/TextField';
+import TimeInput from './TimeInput';
 import Paper from '@material-ui/core/Paper';
 import Container from '@material-ui/core/Container';
 import Fab from '@material-ui/core/Fab';
@@ -158,51 +158,35 @@ class Countdown extends React.Component {
                   <PauseRoundedIcon />
                 </Fab>
               }
-              {(!isOn && elapsedTime > 0) || hasFinished ?
+              {!isOn && elapsedTime > 0 ?
                 <IconButton
                   className="reset-btn"
                   color="default"
                   onClick={this.handleReset}
                 >
-                  <ReplayRoundedIcon fontSize="Large" />
+                  <ReplayRoundedIcon fontSize="large" />
                 </IconButton>
                 :
                 null
+              }
+              {hasFinished &&
+                <Fab
+                  color='primary'
+                  onClick={this.handleReset}
+                >
+                  <ReplayRoundedIcon />
+                </Fab>
               }
             </div>
           </Paper>
         </Container>
         <Container>
-          <TextField
-            id="hh-input"
-            label="Hours"
-            onChange={this.handleHours}
-            type="number"
-            placeholder="00"
-            InputLabelProps={{ shrink: true }}
-            margin="normal"
-            disabled={isOn}
-          />
-          <TextField
-            id="mm-input"
-            label="Minutes"
-            onChange={this.handleMinutes}
-            type="number"
-            placeholder="00"
-            InputLabelProps={{ shrink: true }}
-            margin="normal"
-            disabled={isOn}
-          />
-          <TextField
-            id="ss-input"
-            label="Seconds"
-            defaultValue={seconds}
-            onChange={this.handleSeconds}
-            type="number"
-            placeholder="00"
-            InputLabelProps={{ shrink: true }}
-            margin="normal"
-            disabled={isOn}
+          <TimeInput
+            defaultSeconds={seconds}
+            isDisabled={isOn}
+            onHoursChange={this.handleHours}
+            onMinutesChange={this.handleMinutes}
+            onSecondsChange={this.handleSeconds}
           />
         </Container>
       </div >

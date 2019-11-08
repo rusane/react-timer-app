@@ -87,7 +87,7 @@ class Stopwatch extends React.Component {
                   color="default"
                   onClick={this.handleReset}
                 >
-                  <ReplayRoundedIcon fontSize="Large"/>
+                  <ReplayRoundedIcon fontSize="large"/>
                 </IconButton>
                 :
                 null
