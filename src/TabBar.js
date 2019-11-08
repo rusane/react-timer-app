@@ -10,6 +10,7 @@ import Stopwatch from './Stopwatch';
 import Countdown from './Countdown';
 import TimerIcon from '@material-ui/icons/Timer';
 import HourglassEmptyRoundedIcon from '@material-ui/icons/HourglassEmptyRounded';
+import Hidden from '@material-ui/core/Hidden';
 import { ThemeProvider } from '@material-ui/core/styles/';
 import theme from './theme';
 
@@ -64,8 +65,8 @@ export default function TabBar() {
             textColor="primary"
             centered
           >
-            <Tab className={classes.icon} icon={<TimerIcon />} label="STOPWATCH" />
-            <Tab className={classes.icon} icon={<HourglassEmptyRoundedIcon />} label="COUNTDOWN" />
+            <Tab className={classes.icon} icon={<TimerIcon />} label={<Hidden xsDown>STOPWATCH</Hidden>} />
+            <Tab className={classes.icon} icon={<HourglassEmptyRoundedIcon />} label={<Hidden xsDown>COUNTDOWN</Hidden>} />
           </Tabs>
         </AppBar>
         <TabPanel value={value} index={0}>

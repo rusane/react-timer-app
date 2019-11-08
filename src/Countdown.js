@@ -17,8 +17,8 @@ class Countdown extends React.Component {
       hasFinished: false,
       elapsedTime: 0,
       seconds: 45,
-      minutes: 0,
-      hours: 0,
+      minutes: '',
+      hours: '',
       duration: 45000
     };
   }
@@ -59,6 +59,16 @@ class Countdown extends React.Component {
     clearInterval(this.timer);
   };
 
+  handleClearInput = () => {
+    this.handleReset();
+    this.setState({
+      seconds: '',
+      minutes: '',
+      hours: '',
+      duration: 0
+    });
+  }
+
   componentWillUnmount() {
     clearInterval(this.timer);
   }
@@ -67,7 +77,7 @@ class Countdown extends React.Component {
     let ms = ('0' + Math.floor(time / 10) % 1000).slice(-2);
     let seconds = ('0' + Math.floor(time / 1000) % 60).slice(-2);
     let minutes = ('0' + Math.floor(time / 60000) % 60).slice(-2);
-    let hours = Math.floor(time / 3600000) % 1000; // mod 24 for days
+    let hours = Math.floor(time / 3600000); // mod 24 for days
     hours = hours.toString().length < 2 ? '0' + hours : hours;
 
     let divClassName = 'time-format';
@@ -100,6 +110,7 @@ class Countdown extends React.Component {
         let msMinutes = this.toMilliseconds(state.minutes, 'mm');
         let msHours = this.toMilliseconds(state.hours, 'hh');
         let duration = msSeconds + msMinutes + msHours;
+        if (duration >= 3.6e9) { duration = 3.6e9 - 1e3 }
         return { seconds: seconds, duration: duration };
       });
     }
@@ -114,6 +125,7 @@ class Countdown extends React.Component {
         let msSeconds = this.toMilliseconds(state.seconds, 'ss');
         let msHours = this.toMilliseconds(state.hours, 'hh');
         let duration = msSeconds + msMinutes + msHours;
+        if (duration >= 3.6e9) { duration = 3.6e9 - 1e3 }
         return { minutes: minutes, duration: duration };
       });
     }
@@ -128,13 +140,14 @@ class Countdown extends React.Component {
         let msSeconds = this.toMilliseconds(state.seconds, 'ss');
         let msMinutes = this.toMilliseconds(state.minutes, 'mm');
         let duration = msSeconds + msMinutes + msHours;
+        if (duration >= 3.6e9) { duration = 3.6e9 - 1e3 }
         return { hours: hours, duration: duration };
       });
     }
   };
 
   render() {
-    const { isOn, hasFinished, elapsedTime, seconds, duration } = this.state;
+    const { isOn, hasFinished, elapsedTime, hours, minutes, seconds, duration } = this.state;
 
     return (
       <div className='container'>
@@ -182,11 +195,14 @@ class Countdown extends React.Component {
         </Container>
         <Container>
           <TimeInput
-            defaultSeconds={seconds}
+            hours={hours}
+            minutes={minutes}
+            seconds={seconds}
             isDisabled={isOn}
             onHoursChange={this.handleHours}
             onMinutesChange={this.handleMinutes}
             onSecondsChange={this.handleSeconds}
+            onClearInputChange={this.handleClearInput}
           />
         </Container>
       </div >
